@@ -9,8 +9,15 @@ class BreedSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+class DogPrimaryKeyRelatedField(serializers.PrimaryKeyRelatedField):
+    def display_value(self, instance):
+        return f"{instance.name}"
+
+
 class DogSerializer(serializers.ModelSerializer):
+    breed = DogPrimaryKeyRelatedField(queryset=Breed.objects.all())
+
     class Meta:
         model = Dog
-        fields = "__all_"
+        fields = ("name", "age", "gender", "color", "favorite_food", "favorite_toy", "breed")
         depth = 1
