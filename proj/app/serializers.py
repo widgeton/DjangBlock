@@ -17,14 +17,6 @@ class DogListRetrieveSerializer(serializers.ModelSerializer):
 
 
 class DogCreateUpdateSerializer(serializers.ModelSerializer):
-    breed_id = serializers.IntegerField()
-
     class Meta:
         model = Dog
-        fields = ("name", "age", "gender", "color", "favorite_food", "favorite_toy", "breed_id")
-
-    def validate_breed_id(self, value):
-        breed_ids = [breed.id for breed in Breed.objects.all()]
-        if value in breed_ids:
-            return value
-        raise serializers.ValidationError("Wrong breed ID.")
+        fields = "__all__"
